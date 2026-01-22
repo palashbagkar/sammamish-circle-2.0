@@ -1,0 +1,269 @@
+/* ===== References Page ===== */
+
+.references-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #244747;
+  display: flex;
+  flex-direction: column;
+}
+
+.references-gradient {
+  background: linear-gradient(rgba(0, 0, 0, .667) 0, rgba(0, 0, 0, 0) 1400px);
+}
+
+.references-container {
+  flex: 1;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 120px 117px;
+  padding-top: 200px;
+}
+
+/* Hero Section */
+
+.references-hero {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.references-title {
+  font-family: 'Source Serif Pro', serif;
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 80px;
+  color: #e6e6e6;
+  margin: 0 0 16px 0;
+}
+
+.references-images-used {
+  font-family: 'Source Serif Pro', serif;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 70px;
+  color: #aebdd2;
+  margin: 64px 0 16px 0;
+}
+
+
+.references-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #aebdd2;
+  margin: 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Images Grid */
+
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-bottom: 100px;
+}
+
+.image-card {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all 0.3s ease;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: #FFF;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.image-card:hover .image-wrapper img {
+  transform: scale(1.08);
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(20, 46, 46, 0.8) 0%, rgba(20, 46, 46, 0.6) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-card:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-link-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFC300;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.image-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #aebdd2;
+  margin: 0;
+  line-height: 24px;
+}
+
+/* Credits Section */
+
+.credits-section {
+  background: #e6e6e6;
+  border: 1px solid rgba(20, 46, 46, 0.1);
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.credits-title {
+  font-family: 'Source Serif Pro', serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  color: #142E2E;
+  margin: 0 0 24px 0;
+}
+
+.credits-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #4B5563;
+  margin: 0;
+}
+
+.credits-link {
+  color: #EEB200;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.credits-link:hover {
+  color: #EEC522;
+  text-decoration: underline;
+}
+
+/* ===== Responsive Design ===== */
+
+@media (max-width: 1200px) {
+  .references-container {
+    padding: 100px 80px;
+  }
+
+  .references-title {
+    font-size: 56px;
+    line-height: 64px;
+  }
+
+  .images-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .references-container {
+    padding: 80px 24px;
+  }
+
+  .references-title {
+    font-size: 44px;
+    line-height: 52px;
+  }
+
+  .references-subtitle {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .images-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 60px;
+  }
+
+  .credits-section {
+    padding: 36px 24px;
+  }
+
+  .credits-title {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .credits-text {
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .references-container {
+    padding: 60px 20px;
+  }
+
+  .references-title {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .references-subtitle {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .references-hero {
+    margin-bottom: 50px;
+  }
+
+  .images-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 50px;
+  }
+
+  .credits-section {
+    padding: 28px 20px;
+  }
+
+  .credits-title {
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 16px;
+  }
+}

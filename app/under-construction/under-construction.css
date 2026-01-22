@@ -1,0 +1,324 @@
+/* ===== Under Construction Page ===== */
+
+.under-construction-page {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #142E2E 0%, #143939 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.construction-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.construction-content {
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 32px;
+}
+
+/* Construction Icon */
+
+.construction-icon {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.construction-icon svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 30px rgba(255, 195, 0, 0.2));
+}
+
+/* Typography */
+
+.construction-title {
+  font-family: 'Source Serif Pro', serif;
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 80px;
+  color: #FFF;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.construction-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  color: #FFF4D2;
+  margin: 0;
+  max-width: 500px;
+}
+
+/* Progress Indicator */
+
+.construction-progress {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 195, 0, 0.2);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FFC300 0%, #FFD633 100%);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 195, 0, 0.4);
+}
+
+.progress-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFC300;
+  margin: 0;
+  text-align: center;
+}
+
+/* Finished Pages Section */
+
+.finished-pages {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.finished-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #FFF;
+  margin: 0 0 32px 0;
+  /* text-transform: uppercase; */
+  letter-spacing: 0;
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.link-card {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+  min-height: 200px;
+}
+
+.link-card > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  padding: 28px 20px;
+  background: #e2e2e2;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.link-card:hover > div {
+  background: #e6e6e6;
+  border-color: rgba(255, 195, 0, 0.6);
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.15);
+}
+
+.link-icon {
+  font-size: 30px;
+}
+
+.link-card h3 {
+  font-family: 'Source Serif Pro', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: black;
+  margin: 0;
+  line-height: 24px;
+}
+
+.link-card p {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #244747;
+  margin: 0;
+}
+
+/* Decorative Elements */
+
+.decoration {
+  position: absolute;
+  border: 2px solid rgba(255, 195, 0, 0.1);
+  border-radius: 50%;
+}
+
+.decoration-1 {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  right: -150px;
+  z-index: 0;
+}
+
+.decoration-2 {
+  width: 200px;
+  height: 200px;
+  bottom: -100px;
+  left: -100px;
+  z-index: 0;
+}
+
+/* ===== Responsive Design ===== */
+
+@media (max-width: 1200px) {
+  .construction-title {
+    font-size: 56px;
+    line-height: 64px;
+  }
+
+  .construction-subtitle {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .links-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .construction-container {
+    padding: 60px 24px;
+  }
+
+  .construction-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .construction-title {
+    font-size: 44px;
+    line-height: 52px;
+  }
+
+  .construction-subtitle {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .link-card > div {
+    padding: 24px 16px;
+    min-height: 180px;
+  }
+
+  .link-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .link-card h3 {
+    font-size: 16px;
+  }
+
+  .link-card p {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .decoration {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .construction-container {
+    padding: 40px 20px;
+  }
+
+  .construction-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .construction-title {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .construction-subtitle {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .construction-content {
+    gap: 24px;
+  }
+
+  .links-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .link-card > div {
+    padding: 20px 16px;
+    min-height: 160px;
+  }
+
+  .link-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .link-card h3 {
+    font-size: 15px;
+  }
+
+  .progress-bar {
+    height: 6px;
+  }
+
+  .finished-title {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+}
