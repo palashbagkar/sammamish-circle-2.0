@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Header from "../header";
 import Footer from "../footer";
 import "./submit.css";
+import { submitResourceAction } from "../actions";
 
 interface FormData {
   // Resource Information
@@ -89,10 +90,38 @@ export default function SubmitPage() {
     }
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    alert("Your resource has been submitted for review!");
-  };
+  // Update this function in your SubmitPage component
+const handleSubmit = async () => {
+  try {
+    setPopUp(false);
+
+    const data = new FormData();
+
+    // Mapping your specific state keys to the FormData
+    data.append("title", String(formData.resourceTitle)); // Fixed the "title" error
+    data.append("category", String(formData.category));
+    data.append("topic", String(formData.topic));
+    data.append("tags", String(formData.tags));
+    data.append("description", String(formData.description));
+    data.append("date", String(formData.date));
+    data.append("location", String(formData.location));
+    data.append("email", String(formData.email));
+    data.append("phone", String(formData.phoneNumber));
+
+    if (formData.resourceImage) {
+      data.append("image", formData.resourceImage);
+    }
+
+    const result = await submitResourceAction(data);
+
+    if (result.success) {
+      alert("Mission Accomplished: Resource submitted successfully!");
+    }
+  } catch (error) {
+    console.error("Submission failed:", error);
+    alert("Still hitting a wall. Check the browser console for details.");
+  }
+};
 
   const steps = [
     {
@@ -647,7 +676,7 @@ export default function SubmitPage() {
                           <p>Please ensure all your event details are correct. You won't be able to edit this until it has been reviewed by our team.</p>
                           
                           <div className="modal-actions">
-                            <button className="btn-primary">Yes, Submit Resource</button>
+                            <button className="btn-primary" onClick={handleSubmit}>Yes, Submit Resource</button>
                             <button className="btn-secondary" onClick={hidePopUp}>Go Back</button>
                           </div>
                         </div>
