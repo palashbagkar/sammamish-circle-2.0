@@ -78,37 +78,6 @@ function RegisterForm() {
 }
 
 export default function RegisterPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const email = searchParams.get('email') || "";
-
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleSignUp = async () => {
-    if (!password || password !== confirmPassword) {
-      alert("Passwords do not match or are empty.");
-      return;
-    }
-
-    setLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-
-    if (error) {
-      alert(error.message);
-    } else {
-      alert("Success! Check your email for the confirmation link.");
-      router.push('/auth');
-    }
-    setLoading(false);
-  };
   return (
     <div className="register-page">
       <style>{`
