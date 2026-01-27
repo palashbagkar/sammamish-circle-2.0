@@ -1,45 +1,391 @@
 "use client";
-
-import { useState } from "react";
-import { supabase } from "../../utils/supabase";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from 'react';
+import Header from "../header";
+import Footer from "../footer";
+import { useRouter, useSearchParams } from 'next/navigation';
+import { supabase } from 'utils/supabase';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // 1. State for Inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  // 2. Catch the "Baton" (Email from the Account Page)
+  useEffect(() => {
+    const emailFromUrl = searchParams.get('email');
+    if (emailFromUrl) {
+      setEmail(emailFromUrl);
+    }
+  }, [searchParams]);
+
+  // 3. The Login Maneuver
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) alert(error.message);
-    else router.push("/"); // Pivot to home on success
-  };
+    setLoading(true);
+    setError("");
 
+    const { error: loginError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (loginError) {
+      setError(loginError.message);
+      setLoading(false);
+    } else {
+      // SUCCESS: Route to the Dashboard or Home
+      router.push('/dashboard'); 
+    }
+  };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <motion.div 
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        className="p-8 bg-white shadow-xl rounded-lg border-t-4 border-[#D4AF37] w-96"
-      >
-        <h1 className="text-2xl font-bold mb-6">Sammamish Circle Login</h1>
-        <form onSubmit={handleLogin} className="space-y-4">
-          <input 
-            type="email" placeholder="Email" 
-            className="w-full p-2 border rounded"
-            onChange={(e) => setEmail(e.target.value)} 
-          />
-          <input 
-            type="password" placeholder="Password" 
-            className="w-full p-2 border rounded"
-            onChange={(e) => setPassword(e.target.value)} 
-          />
-          <button className="w-full bg-[#D4AF37] text-white py-2 rounded font-bold">
-            Sign In
-          </button>
+    <div className="login-page">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+4:wght@600&display=swap');
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        .login-page {
+          min-height: 100vh;
+          background: linear-gradient(180deg, #142727 0%, #245e5e 93%);
+          font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+          color: white;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .navbar {
+          width: 100%;
+          height: 73px;
+          background: rgba(27, 44, 31, 0);
+          backdrop-filter: blur(9.2px);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 80px;
+          position: relative;
+          z-index: 10;
+        }
+
+        .navbar-logo {
+          font-family: 'Source Serif 4', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 20px;
+          font-weight: 600;
+          line-height: 20px;
+          color: #FFF;
+        }
+
+        .navbar-links {
+          display: flex;
+          align-items: center;
+          gap: 22px;
+        }
+
+        .navbar-link {
+          font-size: 15px;
+          font-weight: 600;
+          line-height: 20px;
+          color: #FFF;
+          text-transform: capitalize;
+          text-decoration: none;
+          cursor: pointer;
+        }
+
+        .main-content {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 80px;
+        }
+
+        .auth-card {
+          width: 534px;
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.20);
+          background: rgba(255, 255, 255, 0.10);
+          backdrop-filter: blur(10px);
+          padding: 0;
+          overflow: hidden;
+        }
+
+        .auth-card-header {
+          padding: 9px 0;
+          text-align: center;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+        }
+
+        .auth-card-title {
+          font-size: 20px;
+          font-weight: 600;
+          color: #FFF4D2;
+          line-height: 100px;
+        }
+
+        .auth-card-body {
+          padding: 40px 44px 44px;
+        }
+
+        .input-field {
+          width: 100%;
+          height: 58px;
+          padding: 0 24px;
+          border-radius: 9999px;
+          border: 1px solid rgba(255, 255, 255, 0.30);
+          background: rgba(255, 255, 255, 0.20);
+          color: rgba(255, 255, 255, 0.70);
+          font-family: 'Inter', sans-serif;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          outline: none;
+          transition: all 0.3s;
+          margin-bottom: 14px;
+        }
+
+        .input-field::placeholder {
+          color: rgba(255, 255, 255, 0.70);
+        }
+
+        .input-field:focus {
+          border-color: rgba(255, 255, 255, 0.50);
+          background: rgba(255, 255, 255, 0.25);
+        }
+
+        .primary-button {
+          width: 100%;
+          height: 56px;
+          padding: 18px 0 14px 0;
+          border-radius: 9999px;
+          border: none;
+          background: #FFC300;
+          box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10), 0 10px 15px 0 rgba(0, 0, 0, 0.10);
+          color: #000;
+          font-family: 'Inter', sans-serif;
+          font-size: 16px;
+          font-weight: 600;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.3s;
+          margin-top: 33px;
+        }
+
+        .primary-button:hover {
+          background: #ffcd1a;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.15), 0 12px 20px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .link-text {
+          font-size: 14px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.70);
+          text-align: center;
+          margin-top: 14px;
+          cursor: pointer;
+        }
+
+        .link-text:hover {
+          color: rgba(255, 255, 255, 0.90);
+        }
+
+        .footer {
+          width: 100%;
+          background: #0C0C0C;
+          padding: 64px 80px;
+        }
+
+        .footer-content {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 0 32px;
+        }
+
+        .footer-top {
+          display: grid;
+          grid-template-columns: 1.5fr 1fr 1fr;
+          gap: 48px;
+          padding-bottom: 48px;
+          border-bottom: 1px solid #1F2937;
+        }
+
+        .footer-brand h3 {
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 28px;
+          color: #FFF;
+          margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          color: #9CA3AF;
+          max-width: 448px;
+        }
+
+        .footer-section h4 {
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 24px;
+          color: #FFF;
+          margin-bottom: 16px;
+        }
+
+        .footer-links {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .footer-links li a {
+          font-size: 16px;
+          font-weight: 400;
+          color: #9CA3AF;
+          text-decoration: none;
+          transition: color 0.3s;
+        }
+
+        .footer-links li a:hover {
+          color: #FFF;
+        }
+
+        .footer-social h4 {
+          font-size: 16px;
+          font-weight: 400;
+          color: #FFF;
+          margin-bottom: 16px;
+        }
+
+        .social-icons {
+          display: flex;
+          gap: 16px;
+        }
+
+        .social-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 9999px;
+          background: #1F2937;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+          background: #374151;
+          transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+          padding-top: 33px;
+        }
+
+        .footer-copyright {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+          color: #9CA3AF;
+        }
+
+        @media (max-width: 768px) {
+          .navbar {
+            padding: 0 24px;
+            flex-wrap: wrap;
+            height: auto;
+            padding-top: 20px;
+            padding-bottom: 20px;
+          }
+
+          .navbar-links {
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            gap: 16px;
+          }
+
+          .main-content {
+            padding: 24px;
+          }
+
+          .auth-card {
+            width: 100%;
+            max-width: 534px;
+          }
+
+          .auth-card-body {
+            padding: 24px;
+          }
+
+          .footer {
+            padding: 48px 24px;
+          }
+
+          .footer-top {
+            grid-template-columns: 1fr;
+            gap: 32px;
+          }
+        }
+      `}</style>
+
+      <Header />
+
+      {/* Main Content */}
+      <main className="main-content">
+        <form onSubmit={handleLogin} className="auth-card">
+          <div className="auth-card-header">
+            <h1 className="auth-card-title">Log in</h1>
+          </div>
+          <div className="auth-card-body">
+            {error && <p className="error-message">{error}</p>}
+            
+            <input 
+              type="email" 
+              className="input-field" 
+              placeholder="Enter email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            
+            <input 
+              type="password" 
+              className="input-field" 
+              placeholder="Enter password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button 
+              type="submit" 
+              className="primary-button" 
+              disabled={loading}
+            >
+              {loading ? "Authenticating..." : "Log in"}
+            </button>
+
+            <p className="link-text" onClick={() => router.push('/forgot-password')}>
+              Forgot password?
+            </p>
+          </div>
         </form>
-      </motion.div>
+      </main>
+
+      <Footer />
     </div>
   );
 }

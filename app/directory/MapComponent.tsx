@@ -22,6 +22,7 @@ export default function MapComponent({
   resources,
   hoveredResourceId,
 }: MapComponentProps) {
+  
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<{ [key: number]: L.Marker }>({});
 
@@ -30,10 +31,17 @@ export default function MapComponent({
     if (!mapRef.current) {
       const map = L.map("map").setView([47.6062, -122.0355], 12);
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
+map.attributionControl.setPrefix(false);
+
+L.tileLayer(
+  "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+  { attribution: "© OpenStreetMap" }
+).addTo(map);
+
+
+
+
+
 
       mapRef.current = map;
     }
@@ -59,6 +67,7 @@ export default function MapComponent({
     // Create custom icon function
     const createIcon = (isHighlighted: boolean) => {
       return L.divIcon({
+        
         className: "custom-marker",
         html: `
           <div class="marker-pin ${isHighlighted ? "highlighted" : ""}">

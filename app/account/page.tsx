@@ -1,10 +1,34 @@
+"use client";
 import * as React from 'react';
 import Header from "../header";
 import Footer from "../footer";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function RegisterPage() {
+export default function SignUpPage() {
+  const [email, setEmail] = useState("");
+const router = useRouter();
+
+const handleSignUp = () => {
+  if (email) {
+    // This sends the email to the /register page as a "search parameter"
+    router.push(`/register?email=${encodeURIComponent(email)}`);
+  } else {
+    alert("Please enter a valid email to continue.");
+  }
+};
+
+const handleLogin = () => {
+  if (email) {
+    // Pass the email to the login page so it's already filled in
+    router.push(`/login?email=${encodeURIComponent(email)}`);
+  } else {
+    // If they haven't typed anything, just go to the login page
+    router.push('/login');
+  }
+};
   return (
-    <div className="register-page">
+    <div className="signup-page">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+4:wght@600&display=swap');
         
@@ -14,7 +38,7 @@ export default function RegisterPage() {
           box-sizing: border-box;
         }
 
-        .register-page {
+        .signup-page {
           min-height: 100vh;
           background: linear-gradient(180deg, #142727 0%, #245e5e 93%);
           font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
@@ -95,6 +119,13 @@ export default function RegisterPage() {
           padding: 40px 44px 44px;
         }
 
+        .welcome-text {
+          font-size: 24px;
+          font-weight: 700;
+          color: rgba(255, 255, 255, 0.70);
+          margin-bottom: 16px;
+        }
+
         .input-field {
           width: 100%;
           height: 58px;
@@ -109,7 +140,6 @@ export default function RegisterPage() {
           line-height: 24px;
           outline: none;
           transition: all 0.3s;
-          margin-bottom: 14px;
         }
 
         .input-field::placeholder {
@@ -119,6 +149,14 @@ export default function RegisterPage() {
         .input-field:focus {
           border-color: rgba(255, 255, 255, 0.50);
           background: rgba(255, 255, 255, 0.25);
+        }
+
+        .helper-text {
+          font-size: 11px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.70);
+          margin-top: 7px;
+          padding-left: 15px;
         }
 
         .primary-button {
@@ -136,7 +174,7 @@ export default function RegisterPage() {
           text-align: center;
           cursor: pointer;
           transition: all 0.3s;
-          margin-top: 33px;
+          margin-top: 30px;
         }
 
         .primary-button:hover {
@@ -145,18 +183,46 @@ export default function RegisterPage() {
           box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.15), 0 12px 20px 0 rgba(0, 0, 0, 0.15);
         }
 
-        .link-text {
+        .divider-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin: 40px 0;
+        }
+
+        .divider-line {
+          flex: 1;
+          height: 1px;
+          background: #FFF;
+        }
+
+        .divider-text {
           font-size: 14px;
           font-weight: 400;
           color: rgba(255, 255, 255, 0.70);
-          text-align: center;
-          text-decoration: underline;
-          margin-top: 14px;
-          cursor: pointer;
         }
 
-        .link-text:hover {
-          color: rgba(255, 255, 255, 0.90);
+        .secondary-button {
+          width: 100%;
+          height: 58px;
+          border-radius: 9999px;
+          border: 1px solid rgba(255, 255, 255, 0.30);
+          background: rgba(255, 255, 255, 0.20);
+          color: rgba(255, 255, 255, 0.70);
+          font-family: 'Inter', sans-serif;
+          font-size: 16px;
+          font-weight: 600;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .secondary-button:hover {
+          background: rgba(255, 255, 255, 0.25);
+          border-color: rgba(255, 255, 255, 0.40);
         }
 
         .footer {
@@ -252,7 +318,7 @@ export default function RegisterPage() {
         }
 
         .footer-bottom {
-          padding-top: 33px;
+          padding-top: 33;
         }
 
         .footer-copyright {
@@ -304,33 +370,40 @@ export default function RegisterPage() {
       `}</style>
 
       <Header />
-
       {/* Main Content */}
       <main className="main-content">
         <div className="auth-card">
           <div className="auth-card-header">
-            <h1 className="auth-card-title">Registering new account</h1>
+            <h1 className="auth-card-title">Log in or sign up</h1>
           </div>
           <div className="auth-card-body">
-            <input 
-              type="password" 
-              className="input-field" 
-              placeholder="Create password"
-            />
+            <h2 className="welcome-text">Welcome to Sammamish Circle</h2>
             
             <input 
-              type="password" 
-              className="input-field" 
-              placeholder="Re-enter password"
-            />
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  type="email" 
+  className="input-field" 
+  placeholder="Enter your email address"
+/>
+            <p className="helper-text">Check your email for a confirmation link.</p>
 
-            <button className="primary-button">Complete</button>
+            <button onClick={handleSignUp} className="primary-button">
+  Sign up
+</button>
 
-            <p className="link-text">Already have an account?</p>
+            <div className="divider-container">
+              <div className="divider-line"></div>
+              <span className="divider-text">or</span>
+              <div className="divider-line"></div>
+            </div>
+
+            <button onClick={handleLogin} className="secondary-button">
+  Continue with existing account
+</button>
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );
