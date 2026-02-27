@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import Header from "./header";
 import Footer from "./footer";
+import ResourceCarousel from "./carousel";
 
 
 export default function HomePage() {  
@@ -14,25 +15,6 @@ export default function HomePage() {
   // Parallax effect: hero scrolls at half speed
   const heroY = useTransform(scrollY, [0, 1000], [0, 700]);
   const brightness = useTransform(heroY, (latest) => `brightness(${100- (latest / 5)}%)`);
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15, // Delay between each card
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
 
   const newsletterVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
@@ -135,58 +117,41 @@ export default function HomePage() {
         </div>
       </motion.section>
 
-      {/* Featured Resources Section */}
+      {/* Featured Resources Section with Carousel */}
       <section className="featured-section">
         <div className="featured-container">
           <motion.div 
-            className="featured-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+            className="featured-header-top"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
           >
-            {resourcesData.map((resource) => (
-              <motion.div 
-                key={resource.id} 
-                className="resource-card-item"
-                variants={itemVariants}
-                whileHover={{ y: -3 }} // Gentle lift on hover
-              >
-                <div className="resource-card-wrapper">
-                  <div className="resource-image-wrapper">
-                    <img
-                      src={resource.image}
-                      alt={resource.title}
-                      className="resource-image"
-                    />
-                  </div>
-                  <div className="resource-content">
-                    <span className="resource-tag">{resource.tag}</span>
-                    <h3 className="resource-title">{resource.title}</h3>
-                    <p className="resource-description">{resource.description}</p>
-                    <Link href="/under-construction">
-                    <button className="resource-learn-more">
-                      <span>Learn More</span>
-                      <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.3226 7.19032C11.6452 6.86763 11.6452 6.34358 11.3226 6.02089L7.19212 1.89046C6.86943 1.56776 6.34538 1.56776 6.02269 1.89046C5.7 2.21315 5.7 2.73719 6.02269 3.05988L8.74619 5.78081H0.826087C0.369158 5.78081 0 6.14997 0 6.6069C0 7.06383 0.369158 7.43298 0.826087 7.43298H8.74361L6.02527 10.1539C5.70258 10.4766 5.70258 11.0006 6.02527 11.3233C6.34796 11.646 6.87201 11.646 7.1947 11.3233L11.3251 7.1929L11.3226 7.19032Z" fill="#334335"/>
-                      </svg>
-                    </button>
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+            <h2 className="featured-title">Featured Community Resources</h2>
+            <p className="featured-subtitle">
+              Our current favorites: a weekly spotlight on events you won't want to miss.
+            </p>
+          </motion.div>
 
-            {/* Header treated as a grid item so it follows the stagger sequence */}
-            <motion.div className="featured-header" variants={itemVariants}>
-              <h2 className="featured-title">Featured Community Resources</h2>
-              <p className="featured-subtitle">
-                Our current favorites: a weekly spotlight on events you won't want to miss.
-              </p>
-              <Link href="/directory">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <ResourceCarousel resources={resourcesData} />
+          </motion.div>
+
+          <motion.div
+            className="featured-footer"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <Link href="/directory">
               <button className="featured-view-all">View All Resources</button>
-              </Link>
-            </motion.div>
+            </Link>
           </motion.div>
         </div>
       </section>
